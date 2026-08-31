@@ -397,9 +397,9 @@ body.show-grid #gridlayer{opacity:.3}
 .hint{font-size:14px;color:var(--c-dim);line-height:1.25;margin:-2px 0 8px}
 .btnrow{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
 .btnrow .btn{flex:1}
-.swatches{display:flex;flex-wrap:wrap;gap:3px}
-.sw{width:22px;height:18px;border:2px solid var(--c-bevel-d);cursor:pointer;padding:0}
-.sw:hover{border-color:var(--c-accent)}
+.swatches{display:flex;flex-wrap:wrap;gap:1px}
+.sw{width:12px;height:14px;border:1px solid var(--c-bevel-d);cursor:pointer;padding:0;flex:none}
+.sw:hover{outline:2px solid var(--c-accent);outline-offset:-1px}
 
 /* ── STATUS BAR ───────────────────────────────────────────────────────── */
 #statusbar{
@@ -651,8 +651,8 @@ body.broadcast .badge{display:none!important}
 .ticker .run{
   position:absolute;top:50%;transform:translateY(-50%);white-space:nowrap;will-change:transform;
   display:flex;gap:0;align-items:center}
-.ticker .run span{padding-right:60px}
-.ticker .run .sep{color:var(--c-accent);padding-right:60px}
+.ticker .run span{padding-right:var(--tgap,60px)}
+.ticker .run .sep{color:var(--c-accent);padding-right:var(--tgap,60px)}
 
 /* — CLOCK — */
 .clockwin{display:grid;place-content:center;gap:4px;text-align:center;padding:8px;width:100%}
@@ -683,14 +683,19 @@ body.broadcast .badge{display:none!important}
 .goal .hdr .pct{color:var(--c-accent)}
 .goal .bar{position:relative;flex:1 1 auto;min-height:10px;max-height:1.5em;background:#000;overflow:hidden;
   border:3px solid;border-color:var(--c-bevel-d) var(--c-bevel-l) var(--c-bevel-l) var(--c-bevel-d)}
+.goal .bar{--blk:14px}
 .goal .bar .blocks{position:absolute;inset:2px;opacity:.34;
-  background:repeating-linear-gradient(90deg,var(--c-dim) 0 var(--blk,14px),
-    transparent var(--blk,14px) calc(var(--blk,14px) + 4px))}
+  background:repeating-linear-gradient(90deg,var(--trk,var(--c-dim)) 0 var(--blk),
+    transparent var(--blk) calc(var(--blk) + 4px))}
 .goal .bar .fillbar{position:absolute;left:2px;top:2px;bottom:2px;transition:width .45s steps(14);
-  background:linear-gradient(90deg,var(--c-ok),var(--c-accent))}
+  background:linear-gradient(90deg,var(--bar,var(--c-ok)),var(--bar2,var(--c-accent)))}
 .goal .bar .fillbar.blocky{
-  background:repeating-linear-gradient(90deg,var(--c-ok) 0 var(--blk,14px),
-    transparent var(--blk,14px) calc(var(--blk,14px) + 4px))}
+  background:repeating-linear-gradient(90deg,var(--bar,var(--c-ok)) 0 var(--blk),
+    transparent var(--blk) calc(var(--blk) + 4px))}
+.goal .bar .fillbar.stripey{
+  background:repeating-linear-gradient(45deg,var(--bar,var(--c-ok)) 0 10px,
+    var(--bar2,var(--c-accent)) 10px 20px);
+  animation:stripemove 1.4s linear infinite}
 .goal .bar .shine{position:absolute;inset:0;
   background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 3px,transparent 3px 8px)}
 .goal .foot{flex:none;display:flex;justify-content:space-between;font-size:.76em;opacity:.9}
@@ -712,14 +717,19 @@ body.broadcast .badge{display:none!important}
 .chat .foot .dot.off{color:var(--c-hot)}
 
 /* — ALERTS — */
-.alerthost{position:relative;width:100%;height:100%;display:grid;place-items:center;overflow:hidden}
+.alerthost{position:relative;width:100%;height:100%;display:flex;justify-content:center;
+  align-items:center;overflow:hidden}
 .alertbox{
-  width:100%;max-width:100%;text-align:center;
+  width:100%;max-width:100%;flex:none;text-align:center;
   background:var(--c-panel);color:var(--c-panel-ink);
   border:4px double var(--c-panel-ink);box-shadow:10px 10px 0 rgba(0,0,0,.65);
   padding:16px 20px;display:none;
 }
 .alertbox.on{display:block;animation:alertin .45s cubic-bezier(.2,1.6,.4,1) both}
+.alertbox.an-slide.on{animation:win-slide .38s steps(6) both}
+.alertbox.an-crt.on{animation:win-crt .5s steps(8) both}
+.alertbox.an-glitch.on{animation:win-glitch .5s steps(1,end) both}
+.alertbox.an-none.on{animation:none}
 @keyframes alertin{from{transform:scale(.5) translateY(30px);opacity:0}to{transform:none;opacity:1}}
 .alertbox .kind{font-family:var(--font-disp);font-size:.5em;letter-spacing:.02em;
   color:var(--c-hot);margin-bottom:10px;display:block}
@@ -796,9 +806,9 @@ body.broadcast .badge{display:none!important}
 .caps .box{box-decoration-break:clone;-webkit-box-decoration-break:clone}
 
 /* — POLL — */
-.poll{display:flex;flex-direction:column;gap:7px;padding:10px 14px;width:100%;justify-content:center}
-.poll .q{font-family:var(--font-ui);letter-spacing:.08em;color:var(--c-accent);margin-bottom:2px}
-.poll .o{display:flex;align-items:center;gap:8px}
+.poll{display:flex;flex-direction:column;gap:.22em;padding:.3em .5em;width:100%;height:100%;justify-content:center}
+.poll .q{flex:none;font-family:var(--font-ui);letter-spacing:.08em;color:var(--c-accent);margin-bottom:.1em}
+.poll .o{flex:none;display:flex;align-items:center;gap:.35em}
 .poll .o .lbl{flex:none;width:6.5em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .poll .o .track{flex:1;height:1.15em;background:#000;position:relative;border:2px solid var(--c-bevel-d)}
 .poll .o .track i{position:absolute;inset:0 auto 0 0;background:var(--c-accent2);transition:width .45s steps(12)}
@@ -813,6 +823,7 @@ body.broadcast .badge{display:none!important}
   border:2px solid #000;line-height:1.15}
 .clippi .bub::before{content:"";position:absolute;left:-9px;top:50%;margin-top:-7px;
   border:7px solid transparent;border-right-color:#000}
+.clippi .bub.flip::before{left:auto;right:-9px;border-right-color:transparent;border-left-color:#000}
 
 /* — DECOR — */
 .decor{display:grid;place-items:center;width:100%;height:100%;overflow:hidden;text-align:center}
@@ -1393,7 +1404,7 @@ function defaultState(){
             {chrome:'dos2',fs:44},'SYSTEM CLOCK'),
           W('cam',32,128,1200,676,{deviceId:'',filter:'none',fit:'cover',mirror:0,label:'CAM 1 — MAIN',labelPos:'bl',pattern:'smpte'},
             {chrome:'dos2'},'MAIN VIEWPORT'),
-          W('chat',1256,128,632,676,{source:'demo',channel:'',maxLines:16,style:'irc',showBadges:1},
+          W('chat',1256,128,632,676,{source:'demo',channel:'',maxLines:16,style:'irc',stamps:0},
             {chrome:'dos2',fs:26},'#CHAT'),
           W('cam',32,816,356,200,{deviceId:'',filter:'none',fit:'cover',mirror:1,label:'CAM 2',labelPos:'bl',pattern:'bars'},
             {chrome:'dos2'},'FACECAM'),
@@ -1487,13 +1498,22 @@ function migrate(st){
   st.brand=Object.assign({},d.brand,st.brand||{});
   st.backdrop=Object.assign({},d.backdrop,st.backdrop||{});
   st.globals=st.globals||[]; st.scenes=st.scenes&&st.scenes.length?st.scenes:d.scenes;
-  st.scenes.forEach(sc=>{ sc.windows=sc.windows||[];
-    sc.windows.forEach(w=>{ w.st=Object.assign({op:100,rot:0,bright:100,contrast:100,sat:100,hue:0,blur:0,
-      fs:30,font:'body',anim:'none',idle:'none',chrome:'inherit',ink:'',bg:'',bd:'',tbg:'',tink:''},w.st||{});
-      w.props=w.props||{}; ZC=Math.max(ZC,w.z||0); }); });
-  const norm=w=>{ w.st=Object.assign({op:100,rot:0,bright:100,contrast:100,sat:100,hue:0,blur:0,
-      fs:30,font:'body',anim:'none',idle:'none',chrome:'inherit',ink:'',bg:'',bd:'',tbg:'',tink:''},w.st||{});
-    w.props=w.props||{}; ZC=Math.max(ZC,w.z||0); };
+  const ST0={op:100,rot:0,bright:100,contrast:100,sat:100,hue:0,blur:0,
+    fs:30,font:'body',anim:'none',idle:'none',chrome:'inherit',ink:'',bg:'',bd:'',tbg:'',tink:''};
+  /* Backfill any prop a newer build added, so a config saved by an older
+     version picks up new options at their defaults instead of undefined. */
+  const norm=w=>{
+    w.st=Object.assign({},ST0,w.st||{});
+    w.props=w.props||{};
+    const T=TYPES[w.type];
+    if(T&&T.defaults&&T.defaults.props){
+      const dp=T.defaults.props;
+      for(const k in dp) if(!(k in w.props)) w.props[k]=dp[k];
+    }
+    if(!w.id) w.id=uid();
+    ZC=Math.max(ZC,w.z||0);
+  };
+  st.scenes.forEach(sc=>{ sc.windows=sc.windows||[]; sc.windows.forEach(norm); });
   st.globals.forEach(norm);
   return st;
 }
@@ -2225,7 +2245,7 @@ function drawPattern(c,W,H,kind,t,label){
 const TYPES={};
 
 /* ── shared drawing helpers ───────────────────────────────────────────── */
-function drawSource(ctx,src,sw,sh,W,H,fit,mirror,zoom,px,py){
+function drawSource(ctx,src,sw,sh,W,H,fit,mirror,zoom,px,py,flipV){
   if(!sw||!sh) return;
   const z=(zoom||100)/100;
   let dw,dh;
@@ -2238,6 +2258,7 @@ function drawSource(ctx,src,sw,sh,W,H,fit,mirror,zoom,px,py){
   const dx=(W-dw)/2+(px||0)/100*W, dy=(H-dh)/2+(py||0)/100*H;
   ctx.save();
   if(mirror){ ctx.translate(W,0); ctx.scale(-1,1); }
+  if(flipV){ ctx.translate(0,H); ctx.scale(1,-1); }
   ctx.drawImage(src,dx,dy,dw,dh);
   ctx.restore();
 }
@@ -2313,10 +2334,17 @@ function videoSurface(w,root,acquire,kind){
   paintNoSignal();
 
   const inst={
+    _lastPaint:0,
     frame(t){
       const p=w.props;
       lab.textContent=p.label||''; lab.style.display=p.label?'':'none';
       lab.className='srclabel '+(p.labelPos||'bl');
+      lab.style.background=p.labelColor||''; lab.style.color=p.labelInk||'';
+      if(p.fps){
+        const min=1000/clamp(p.fps,1,60);
+        if(t-(inst._lastPaint||0)<min && live && p.filter!=='none') return;
+        inst._lastPaint=t;
+      }
       const usePixels = live && (p.filter!=='none'||p.chroma||p.scan);
       if(!live){
         const [cw,ch]=fitCanvas(cv,root,Math.max(240,Math.min(640,root.clientWidth||480)),480,270);
@@ -2329,7 +2357,7 @@ function videoSurface(w,root,acquire,kind){
         const cols=clamp(Math.round((p.res||480)/6),24,180), rows=clamp(Math.round(cols*ah/aw*0.5),12,120);
         if(small.width!==cols||small.height!==rows){ small.width=cols; small.height=rows; }
         sctx.clearRect(0,0,cols,rows);
-        drawSource(sctx,vid,vid.videoWidth,vid.videoHeight,cols,rows,p.fit||'cover',p.mirror,p.zoom,p.panX,p.panY);
+        drawSource(sctx,vid,vid.videoWidth,vid.videoHeight,cols,rows,p.fit||'cover',p.mirror,p.zoom,p.panX,p.panY,p.flipV);
         asciiRender(ctx,sctx,cols,rows,p.ramp==='blocks'?BLOCKS:(p.ramp==='fine'?ASCII_RAMP2:ASCII_RAMP),
           p.asciiColor||'green',p.ink||'#55FF55');
         return;
@@ -2338,14 +2366,15 @@ function videoSurface(w,root,acquire,kind){
         vid.style.display=''; cv.style.display='none';
         vid.style.width='100%'; vid.style.height='100%';
         vid.style.objectFit=p.fit==='fill'?'fill':p.fit==='contain'?'contain':'cover';
-        vid.style.transform=(p.mirror?'scaleX(-1) ':'')+'scale('+((p.zoom||100)/100)+') '+
+        vid.style.transform=(p.mirror?'scaleX(-1) ':'')+(p.flipV?'scaleY(-1) ':'')+
+          'scale('+((p.zoom||100)/100)+') '+
           'translate('+((p.panX||0))+'%,'+((p.panY||0))+'%)';
         return;
       }
       vid.style.display='none'; cv.style.display='';
       const [cw,ch]=fitCanvas(cv,root,p.res||480,480,270);
       ctx.clearRect(0,0,cw,ch);
-      drawSource(ctx,vid,vid.videoWidth,vid.videoHeight,cw,ch,p.fit||'cover',p.mirror,p.zoom,p.panX,p.panY);
+      drawSource(ctx,vid,vid.videoWidth,vid.videoHeight,cw,ch,p.fit||'cover',p.mirror,p.zoom,p.panX,p.panY,p.flipV);
       if(p.filter!=='none'||p.chroma){
         const im=ctx.getImageData(0,0,cw,ch);
         if(CAMFX[p.filter]) CAMFX[p.filter](im.data,cw,ch);
@@ -2373,7 +2402,8 @@ const CAMFILTERS=[['none','NONE — FULL COLOR'],['vga16','VGA 16-COLOR DITHER']
 TYPES.cam={
   name:'CAMERA', icon:'▣', cat:'SOURCES',
   defaults:{w:640,h:360,title:'CAMERA',props:{deviceId:'',res:480,camres:720,filter:'none',fit:'cover',
-    mirror:0,zoom:100,panX:0,panY:0,label:'CAM 1',labelPos:'bl',pattern:'smpte',scan:0,
+    mirror:0,flipV:0,zoom:100,panX:0,panY:0,fps:0,label:'CAM 1',labelPos:'bl',
+    labelColor:'',labelInk:'',pattern:'smpte',scan:0,
     chroma:0,chromaColor:'#00B140',chromaSim:40,chromaSmooth:18,ramp:'std',asciiColor:'green',ink:'#55FF55'}},
   fields:[
     {t:'info',v:'Pick a physical camera. Two windows may share one device — the stream is opened once.'},
@@ -2384,25 +2414,32 @@ TYPES.cam={
     {k:'props.pattern',l:'NO SIGNAL',t:'select',opts:[['smpte','SMPTE BARS'],['bars','VGA BARS'],['static','STATIC'],['grid','TEST GRID'],['black','BLACK']]},
     {t:'sect',l:'FRAMING'},
     {k:'props.fit',l:'FIT',t:'select',opts:FIT_OPTS},
-    {k:'props.mirror',l:'MIRROR',t:'check'},
+    {k:'props.mirror',l:'FLIP H',t:'check'},
+    {k:'props.flipV',l:'FLIP V',t:'check'},
     {k:'props.zoom',l:'ZOOM',t:'range',min:50,max:300},
     {k:'props.panX',l:'PAN X',t:'range',min:-50,max:50},
     {k:'props.panY',l:'PAN Y',t:'range',min:-50,max:50},
+    {t:'btn',l:'↺ RESET FRAMING',fn:w=>{ w.props.zoom=100; w.props.panX=0; w.props.panY=0; }},
     {t:'sect',l:'PICTURE'},
     {k:'props.filter',l:'FILTER',t:'select',opts:CAMFILTERS},
     {k:'props.res',l:'PIXEL RES',t:'range',min:120,max:960,step:20},
+    {k:'props.fps',l:'FILTER FPS',t:'select',num:1,opts:[[0,'UNCAPPED'],[30,'30 FPS'],[24,'24 FPS'],[15,'15 FPS'],[10,'10 FPS']]},
+    {t:'hint',v:'Capping the filter frame rate is the cheapest way to buy back CPU.'},
     {k:'props.scan',l:'SCANLINES',t:'range',min:0,max:80},
     {k:'props.ramp',l:'ASCII SET',t:'select',opts:[['std','STANDARD .:-=+*#%@'],['fine','FINE 15-STEP'],['blocks','CP437 BLOCKS ░▒▓█']],when:w=>w.props.filter==='ascii'},
     {k:'props.asciiColor',l:'ASCII COLOR',t:'select',opts:[['green','PHOSPHOR'],['color','FULL COLOR'],['tint','SINGLE TINT']],when:w=>w.props.filter==='ascii'},
     {k:'props.ink',l:'TINT',t:'color',when:w=>w.props.filter==='ascii'&&w.props.asciiColor==='tint'},
     {t:'sect',l:'CHROMA KEY'},
     {k:'props.chroma',l:'ENABLE',t:'check'},
-    {k:'props.chromaColor',l:'KEY COLOR',t:'color'},
-    {k:'props.chromaSim',l:'SIMILARITY',t:'range',min:1,max:100},
-    {k:'props.chromaSmooth',l:'SMOOTH',t:'range',min:0,max:60},
+    {t:'hint',v:'Even lighting matters more than a bright green.',when:w=>w.props.chroma},
+    {k:'props.chromaColor',l:'KEY COLOR',t:'color',when:w=>w.props.chroma},
+    {k:'props.chromaSim',l:'SIMILARITY',t:'range',min:1,max:100,when:w=>w.props.chroma},
+    {k:'props.chromaSmooth',l:'SMOOTH',t:'range',min:0,max:60,when:w=>w.props.chroma},
     {t:'sect',l:'LABEL'},
     {k:'props.label',l:'TEXT',t:'text'},
-    {k:'props.labelPos',l:'CORNER',t:'select',opts:LABELPOS}
+    {k:'props.labelPos',l:'CORNER',t:'select',opts:LABELPOS},
+    {k:'props.labelColor',l:'LABEL FILL',t:'color'},
+    {k:'props.labelInk',l:'LABEL TEXT',t:'color'}
   ],
   mount(w,root){ return videoSurface(w,root,p=>HUB.getCam(p.deviceId,p.camres),'cam'); }
 };
@@ -2410,7 +2447,8 @@ TYPES.cam={
 TYPES.screen={
   name:'SCREEN CAPTURE', icon:'▤', cat:'SOURCES',
   defaults:{w:960,h:540,title:'CAPTURE',props:{armed:0,res:640,filter:'none',fit:'contain',
-    mirror:0,zoom:100,panX:0,panY:0,label:'GAME',labelPos:'tl',pattern:'grid',scan:0,chroma:0,
+    mirror:0,flipV:0,zoom:100,panX:0,panY:0,fps:0,label:'GAME',labelPos:'tl',
+    labelColor:'',labelInk:'',pattern:'grid',scan:0,chroma:0,
     chromaColor:'#00B140',chromaSim:40,chromaSmooth:18,ramp:'std',asciiColor:'color',ink:'#55FF55'}},
   fields:[
     {t:'info',v:'Captures a window, tab or whole screen. The browser asks which one. Great for putting gameplay inside the overlay instead of behind it.'},
@@ -2418,16 +2456,27 @@ TYPES.screen={
     {t:'btn',l:'■ STOP CAPTURE',fn:(w)=>{ w.props.armed=0; const i=INST.get(w.id); if(i){ i.stop(); } refreshWin(w); }},
     {t:'sect',l:'FRAMING'},
     {k:'props.fit',l:'FIT',t:'select',opts:FIT_OPTS},
+    {k:'props.mirror',l:'FLIP H',t:'check'},
+    {k:'props.flipV',l:'FLIP V',t:'check'},
     {k:'props.zoom',l:'ZOOM',t:'range',min:50,max:300},
     {k:'props.panX',l:'PAN X',t:'range',min:-50,max:50},
     {k:'props.panY',l:'PAN Y',t:'range',min:-50,max:50},
+    {t:'hint',v:'Zoom and pan crop a shared window down to just the part you want on screen.'},
     {t:'sect',l:'PICTURE'},
     {k:'props.filter',l:'FILTER',t:'select',opts:CAMFILTERS},
     {k:'props.res',l:'PIXEL RES',t:'range',min:160,max:1280,step:20},
+    {k:'props.fps',l:'FILTER FPS',t:'select',num:1,opts:[[0,'UNCAPPED'],[30,'30 FPS'],[24,'24 FPS'],[15,'15 FPS'],[10,'10 FPS']]},
     {k:'props.scan',l:'SCANLINES',t:'range',min:0,max:80},
+    {t:'sect',l:'CHROMA KEY'},
+    {k:'props.chroma',l:'ENABLE',t:'check'},
+    {k:'props.chromaColor',l:'KEY COLOR',t:'color',when:w=>w.props.chroma},
+    {k:'props.chromaSim',l:'SIMILARITY',t:'range',min:1,max:100,when:w=>w.props.chroma},
+    {k:'props.chromaSmooth',l:'SMOOTH',t:'range',min:0,max:60,when:w=>w.props.chroma},
     {t:'sect',l:'LABEL'},
     {k:'props.label',l:'TEXT',t:'text'},
-    {k:'props.labelPos',l:'CORNER',t:'select',opts:LABELPOS}
+    {k:'props.labelPos',l:'CORNER',t:'select',opts:LABELPOS},
+    {k:'props.labelColor',l:'LABEL FILL',t:'color'},
+    {k:'props.labelInk',l:'LABEL TEXT',t:'color'}
   ],
   mount(w,root){ return videoSurface(w,root,p=>HUB.getScreen(false),'screen'); }
 };
@@ -2462,7 +2511,8 @@ async function attachMedia(w,key,accept){
 
 TYPES.image={
   name:'IMAGE / GIF', icon:'▩', cat:'SOURCES',
-  defaults:{w:480,h:360,title:'IMAGE',props:{mediaId:'',url:'',fit:'contain',tile:0,tileSize:128,mirror:0}},
+  defaults:{w:480,h:360,title:'IMAGE',props:{mediaId:'',url:'',fit:'contain',tile:0,tileSize:128,
+    mirror:0,scrollX:0,scrollY:0}},
   fields:[
     {t:'info',v:'PNG, JPG, WEBP and animated GIF. Files are kept in the browser vault, not in the saved layout, so configs stay small.'},
     {t:'btn',l:'⬒ LOAD IMAGE FILE…',fn:w=>attachMedia(w,'props.mediaId','image/*')},
@@ -2471,7 +2521,10 @@ TYPES.image={
     {t:'sect',l:'DISPLAY'},
     {k:'props.fit',l:'FIT',t:'select',opts:FIT_OPTS,remount:1},
     {k:'props.tile',l:'TILE',t:'check',remount:1},
-    {k:'props.tileSize',l:'TILE PX',t:'range',min:16,max:512,step:8,when:w=>w.props.tile},
+    {k:'props.tileSize',l:'TILE PX',t:'range',min:16,max:512,step:8,when:w=>w.props.tile,remount:1},
+    {k:'props.scrollX',l:'SCROLL X',t:'range',min:-120,max:120,when:w=>w.props.tile},
+    {k:'props.scrollY',l:'SCROLL Y',t:'range',min:-120,max:120,when:w=>w.props.tile},
+    {t:'hint',v:'A slow scroll on a tiled star field is the most 1996 thing in this program.',when:w=>w.props.tile},
     {k:'props.mirror',l:'MIRROR',t:'check',remount:1}
   ],
   mount(w,root){
@@ -2489,19 +2542,30 @@ TYPES.image={
       else{ box.style.backgroundImage=''; const im=el('img',{alt:w.title||'image'}); im.src=src; box.appendChild(im); }
     };
     if(p.mediaId) mediaURL(p.mediaId).then(apply); else apply(p.url||'');
-    return {update(nw){ w=nw; }};
+    let ox=0, oy=0;
+    return {
+      update(nw){ w=nw; },
+      frame(t,dt){
+        const q=w.props;
+        if(!q.tile||(!q.scrollX&&!q.scrollY)) return;
+        const sz=q.tileSize||128;
+        ox=(ox+(q.scrollX||0)*dt/1000)%sz; oy=(oy+(q.scrollY||0)*dt/1000)%sz;
+        box.style.backgroundPosition=Math.round(ox)+'px '+Math.round(oy)+'px';
+      }
+    };
   }
 };
 
 TYPES.video={
   name:'VIDEO LOOP', icon:'▶', cat:'SOURCES',
-  defaults:{w:560,h:315,title:'VIDEO LOOP',props:{mediaId:'',url:'',fit:'cover',rate:100,mute:1,vol:70,loop:1,mirror:0}},
+  defaults:{w:560,h:315,title:'VIDEO LOOP',props:{mediaId:'',url:'',fit:'cover',rate:100,mute:1,vol:70,loop:1,mirror:0,start:0}},
   fields:[
     {t:'info',v:'Looping MP4/WEBM clips — idle animations, stingers, background loops.'},
     {t:'btn',l:'⬒ LOAD VIDEO FILE…',fn:w=>attachMedia(w,'props.mediaId','video/*')},
     {k:'props.url',l:'OR URL',t:'text',remount:1},
     {t:'sect',l:'PLAYBACK'},
     {k:'props.loop',l:'LOOP',t:'check'},
+    {k:'props.start',l:'START AT (S)',t:'num'},
     {k:'props.rate',l:'SPEED %',t:'range',min:10,max:300},
     {k:'props.mute',l:'MUTE',t:'check'},
     {k:'props.vol',l:'VOLUME',t:'range',min:0,max:100,when:w=>!w.props.mute},
@@ -2522,13 +2586,15 @@ TYPES.video={
       v.src=src; box.appendChild(v);
       v.loop=!!w.props.loop; v.muted=!!w.props.mute; v.volume=(w.props.vol||70)/100;
       v.playbackRate=(w.props.rate||100)/100;
+      if(+w.props.start){ v.addEventListener('loadedmetadata',()=>{
+        try{ v.currentTime=+w.props.start||0; }catch(e){} },{once:true}); }
       v.play().catch(()=>{});
     };
     if(w.props.mediaId) mediaURL(w.props.mediaId).then(apply); else apply(w.props.url||'');
     return {
       update(nw){ w=nw; v.loop=!!w.props.loop; v.muted=!!w.props.mute;
         v.volume=(w.props.vol||70)/100; v.playbackRate=(w.props.rate||100)/100; },
-      restart(){ v.currentTime=0; v.play().catch(()=>{}); },
+      restart(){ try{ v.currentTime=+w.props.start||0; }catch(e){} v.play().catch(()=>{}); },
       destroy(){ try{ v.pause(); v.removeAttribute('src'); v.load(); }catch(e){} }
     };
   }
@@ -2572,10 +2638,13 @@ TYPES.effect={
 
 TYPES.embed={
   name:'WEB EMBED', icon:'⧉', cat:'SOURCES',
-  defaults:{w:640,h:400,title:'EMBED',props:{url:'',scroll:0}},
+  defaults:{w:640,h:400,title:'EMBED',props:{url:'',scale:100,interactive:0}},
   fields:[
     {t:'info',v:'Drops any URL into a frame. Many sites refuse to be embedded — if the panel stays blank, that site has blocked it.'},
     {k:'props.url',l:'URL',t:'text',remount:1},
+    {k:'props.scale',l:'ZOOM %',t:'range',min:25,max:200,live:1},
+    {k:'props.interactive',l:'ALLOW CLICKS',t:'check',live:1},
+    {t:'hint',v:'Clicks are off by default so the frame does not swallow drags in the editor.'},
     {t:'btn',l:'↺ RELOAD',fn:w=>remountWin(w)}
   ],
   mount(w,root){
@@ -2589,7 +2658,16 @@ TYPES.embed={
       wrap.appendChild(el('div',{class:'blocked',html:'<span>⧉ NO URL SET</span><small>PASTE AN ADDRESS IN PROPERTIES</small>'}));
     }
     root.appendChild(wrap);
-    return {update(nw){ w=nw; }};
+    const style=()=>{
+      const f=$('iframe',wrap); if(!f) return;
+      const z=clamp(w.props.scale==null?100:w.props.scale,25,200)/100;
+      f.style.transformOrigin='0 0';
+      f.style.transform='scale('+z+')';
+      f.style.width=(100/z)+'%'; f.style.height=(100/z)+'%';
+      f.style.pointerEvents=w.props.interactive?'auto':'none';
+    };
+    style();
+    return {update(nw){ w=nw; style(); }};
   }
 };
 
@@ -2688,26 +2766,26 @@ function blockify(text,cols,fam,square){
 
 /* CP437 shades drawn as real 2x2 dither cells, the way a text-mode screen
    actually resolved them. */
-function drawBlockGrid(ctx,grid,ox,oy,cell,color){
+function drawBlockGrid(ctx,grid,ox,oy,cell,color,cellY){
   ctx.fillStyle=color;
-  const h=cell/2;
+  const cy=cellY||cell, h=cell/2, hy=cy/2;
   const PAT={'\u2588':[[0,0],[1,0],[0,1],[1,1]],'\u2593':[[0,0],[1,0],[0,1]],
              '\u2592':[[0,0],[1,1]],'\u2591':[[0,0]]};
   for(let y=0;y<grid.length;y++){
     const line=grid[y];
     for(let x=0;x<line.length;x++){
       const ch=line[x]; if(ch===' ') continue;
-      if(ch==='\u2588'){ ctx.fillRect(ox+x*cell,oy+y*cell,cell+0.5,cell+0.5); continue; }
+      if(ch==='\u2588'){ ctx.fillRect(ox+x*cell,oy+y*cy,cell+0.5,cy+0.5); continue; }
       const pat=PAT[ch]; if(!pat) continue;
-      pat.forEach(([sx,sy])=> ctx.fillRect(ox+x*cell+sx*h,oy+y*cell+sy*h,h+0.35,h+0.35));
+      pat.forEach(([sx,sy])=> ctx.fillRect(ox+x*cell+sx*h,oy+y*cy+sy*hy,h+0.35,hy+0.35));
     }
   }
 }
 
 TYPES.banner={
   name:'ANSI BANNER', icon:'▛', cat:'TEXT',
-  defaults:{w:800,h:180,title:'BANNER',fs:20,props:{text:'RETROCAST',detail:12,style:'block',
-    color:'#FFFF55',shadow:1,face:'disp'}},
+  defaults:{w:800,h:180,title:'BANNER',fs:20,props:{text:'RETROCAST',detail:12,color:'#FFFF55',shadow:1,face:'disp',
+    solid:0,align:'c',valign:'c',stretch:0}},
   fields:[
     {t:'info',v:'Type is rasterised then re-emitted as CP437 block characters — the same trick ANSI art packs used.'},
     {k:'props.text',l:'TEXT',t:'text',live:1},
@@ -2715,7 +2793,13 @@ TYPES.banner={
     {t:'hint',v:'Higher values resolve the letterforms; lower values dissolve them into 8-bit mush.'},
     {k:'props.face',l:'SOURCE FACE',t:'select',opts:[['disp','PRESS START 2P'],['body','VT323'],['ui','SILKSCREEN']],live:1},
     {k:'props.color',l:'COLOR',t:'color',live:1},
-    {k:'props.shadow',l:'DROP SHADOW',t:'check',live:1}
+    {k:'props.shadow',l:'DROP SHADOW',t:'check',live:1},
+    {k:'props.solid',l:'SOLID FILL',t:'check',live:1},
+    {t:'hint',v:'Solid fill drops the ░▒▓ edge shading and keeps only full blocks.'},
+    {t:'sect',l:'PLACEMENT'},
+    {k:'props.align',l:'ALIGN',t:'select',opts:[['c','CENTER'],['l','LEFT'],['r','RIGHT']],live:1},
+    {k:'props.valign',l:'VERTICAL',t:'select',opts:[['c','MIDDLE'],['t','TOP'],['b','BOTTOM']],live:1},
+    {k:'props.stretch',l:'FILL WINDOW',t:'check',live:1}
   ],
   mount(w,root){
     root.innerHTML='';
@@ -2734,10 +2818,14 @@ TYPES.banner={
       ctx.clearRect(0,0,W,H);
       if(!grid.length) return;
       const cols=Math.max.apply(null,grid.map(l=>l.length))||1, rows=grid.length;
-      const cell=Math.min(W/cols,H/rows);
-      const ox=(W-cell*cols)/2, oy=(H-cell*rows)/2;
-      if(p.shadow) drawBlockGrid(ctx,grid,ox+cell*0.9,oy+cell*0.9,cell,'rgba(0,0,0,.8)');
-      drawBlockGrid(ctx,grid,ox,oy,cell,p.color||'#FFFF55');
+      let cw=W/cols, chh=H/rows;
+      if(!p.stretch){ const cell=Math.min(cw,chh); cw=chh=cell; }
+      const free=W-cw*cols, freeY=H-chh*rows;
+      const ox=p.align==='l'?0:p.align==='r'?free:free/2;
+      const oy=p.valign==='t'?0:p.valign==='b'?freeY:freeY/2;
+      const g=p.solid? grid.map(l=>l.replace(/[░▒▓]/g,'█')) : grid;
+      if(p.shadow) drawBlockGrid(ctx,g,ox+cw*0.9,oy+chh*0.9,cw,p.color?'rgba(0,0,0,.8)':'rgba(0,0,0,.8)',chh);
+      drawBlockGrid(ctx,g,ox,oy,cw,p.color||'#FFFF55',chh);
     };
     paint();
     if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{ key=''; paint(); });
@@ -2752,7 +2840,8 @@ TYPES.banner={
 
 TYPES.text={
   name:'TEXT PANEL', icon:'T', cat:'TEXT',
-  defaults:{w:640,h:120,title:'TEXT',fs:44,props:{text:'HELLO WORLD',sub:'',fx:'none',align:'l',valign:'c',type:0}},
+  defaults:{w:640,h:120,title:'TEXT',fs:44,props:{text:'HELLO WORLD',sub:'',fx:'none',align:'l',valign:'c',
+    type:0,speed:55,upper:0,track:0,lh:110}},
   fields:[
     {k:'props.text',l:'TEXT',t:'area',live:1},
     {k:'props.sub',l:'SUBTITLE',t:'text',live:1},
@@ -2760,7 +2849,13 @@ TYPES.text={
       ['shadow','DROP SHADOW'],['outline','OUTLINE'],['rainbow','RAINBOW WORDART'],['emboss','EMBOSS'],['crawl','JITTER']]},
     {k:'props.align',l:'ALIGN',t:'select',opts:[['l','LEFT'],['c','CENTER'],['r','RIGHT']],live:1},
     {k:'props.valign',l:'VERTICAL',t:'select',opts:[['t','TOP'],['c','MIDDLE'],['b','BOTTOM']],live:1},
-    {k:'props.type',l:'TYPEWRITER',t:'check',remount:1}
+    {t:'sect',l:'TYPESETTING'},
+    {k:'props.upper',l:'UPPERCASE',t:'check',live:1},
+    {k:'props.track',l:'LETTER SPACING',t:'range',min:-10,max:60,live:1},
+    {k:'props.lh',l:'LINE HEIGHT',t:'range',min:70,max:220,live:1},
+    {t:'sect',l:'ANIMATION'},
+    {k:'props.type',l:'TYPEWRITER',t:'check',remount:1},
+    {k:'props.speed',l:'TYPE SPEED',t:'range',min:5,max:200,when:w=>w.props.type}
   ],
   mount(w,root){
     root.innerHTML='';
@@ -2772,16 +2867,22 @@ TYPES.text={
       const p=w.props;
       box.className='textwin al-'+(p.align||'l')+' av-'+(p.valign||'c');
       main.className=p.fx&&p.fx!=='none'?('fx-'+p.fx):'';
-      if(!p.type) main.textContent=p.text||'';
-      sub.textContent=p.sub||''; sub.style.display=p.sub?'':'none';
+      main.style.letterSpacing=((p.track||0)/100)+'em';
+      box.style.lineHeight=((p.lh==null?110:p.lh)/100);
+      const body=p.upper?String(p.text||'').toUpperCase():(p.text||'');
+      if(!p.type) main.textContent=body;
+      sub.textContent=p.upper?String(p.sub||'').toUpperCase():(p.sub||'');
+      sub.style.display=p.sub?'':'none';
     };
     paint();
     return {
       update(nw){ w=nw; typed=0; paint(); },
       frame(t,dt){
         if(!w.props.type) return;
-        const full=w.props.text||''; tacc+=dt;
-        if(tacc>55){ tacc=0; typed=(typed+1)%(full.length+22); }
+        let full=w.props.text||''; if(w.props.upper) full=full.toUpperCase();
+        tacc+=dt;
+        const per=clamp(3000/Math.max(5,w.props.speed||55),8,400);
+        if(tacc>per){ tacc=0; typed=(typed+1)%(full.length+22); }
         main.textContent=full.slice(0,Math.min(typed,full.length))+(typed<full.length?'█':'');
       }
     };
@@ -2791,15 +2892,20 @@ TYPES.text={
 TYPES.ticker={
   name:'NEWS TICKER', icon:'▬', cat:'TEXT',
   defaults:{w:1920,h:64,title:'TICKER',fs:34,props:{text:'BREAKING · THE STREAM IS LIVE',tag:'LIVE',
-    speed:70,dir:'left',sep:'///',bg:'#000000',bgOn:1}},
+    speed:70,dir:'left',sep:'///',bg:'#000000',bgOn:1,tagBg:'',tagInk:'',gap:60,sepColor:''}},
   fields:[
     {k:'props.text',l:'MESSAGE',t:'area',live:1},
     {k:'props.tag',l:'TAG',t:'text',live:1},
     {k:'props.sep',l:'SEPARATOR',t:'text',live:1},
     {k:'props.speed',l:'SPEED',t:'range',min:10,max:250},
     {k:'props.dir',l:'DIRECTION',t:'select',opts:[['left','RIGHT → LEFT'],['right','LEFT → RIGHT']]},
+    {k:'props.gap',l:'REPEAT GAP',t:'range',min:10,max:300,live:1},
+    {t:'sect',l:'COLORS'},
     {k:'props.bgOn',l:'SOLID BAR',t:'check',live:1},
-    {k:'props.bg',l:'BAR COLOR',t:'color',live:1,when:w=>w.props.bgOn}
+    {k:'props.bg',l:'BAR COLOR',t:'color',live:1,when:w=>w.props.bgOn},
+    {k:'props.tagBg',l:'TAG FILL',t:'color',live:1,when:w=>w.props.tag},
+    {k:'props.tagInk',l:'TAG TEXT',t:'color',live:1,when:w=>w.props.tag},
+    {k:'props.sepColor',l:'SEPARATOR',t:'color',live:1}
   ],
   mount(w,root){
     root.innerHTML='';
@@ -2810,9 +2916,12 @@ TYPES.ticker={
     const paint=()=>{
       const p=w.props;
       tag.textContent=p.tag||''; tag.style.display=p.tag?'':'none';
+      tag.style.background=p.tagBg||''; tag.style.color=p.tagInk||'';
+      box.style.setProperty('--tgap',(p.gap==null?60:p.gap)+'px');
       run.innerHTML='';
       const unit=el('span',{text:(p.text||'')});
-      const sep=el('span',{class:'sep',text:' '+(p.sep||'///')+' '});
+      const sep=el('span',{class:'sep',text:' '+(p.sep||'///')+' ',
+        style:p.sepColor?('color:'+p.sepColor):''});
       for(let i=0;i<4;i++){ run.appendChild(unit.cloneNode(true)); run.appendChild(sep.cloneNode(true)); }
       box.style.background=p.bgOn?(p.bg||'#000'):'transparent';
       wid=run.scrollWidth/4||1;
@@ -2836,16 +2945,29 @@ TYPES.ticker={
 let UPTIME0=Date.now();
 TYPES.clock={
   name:'CLOCK / TIMER', icon:'◷', cat:'READOUTS',
-  defaults:{w:420,h:120,title:'CLOCK',fs:56,props:{mode:'time',fmt:'HH:MM:SS',h24:1,label:'LOCAL TIME',
-    face:'disp',target:600,running:0,left:600,showUptime:0}},
+  defaults:{w:420,h:120,title:'CLOCK',fs:56,props:{mode:'time',h24:1,secs:1,label:'LOCAL TIME',face:'disp',
+    target:600,running:0,left:600,dateFmt:'dmy',prefix:'',suffix:'',warn:10,hideZero:0}},
   fields:[
     {k:'props.mode',l:'MODE',t:'select',remount:1,opts:[['time','WALL CLOCK'],['date','DATE'],
       ['uptime','STREAM UPTIME'],['count','COUNTDOWN'],['stop','STOPWATCH']]},
     {k:'props.label',l:'CAPTION',t:'text',live:1},
     {k:'props.face',l:'FACE',t:'select',opts:[['disp','ARCADE (PRESS START)'],['body','TERMINAL (VT323)']],live:1},
     {k:'props.h24',l:'24 HOUR',t:'check',when:w=>w.props.mode==='time'},
+    {k:'props.secs',l:'SHOW SECONDS',t:'check',when:w=>w.props.mode==='time'},
+    {k:'props.dateFmt',l:'FORMAT',t:'select',when:w=>w.props.mode==='date',opts:[
+      ['dmy','31.12.1998'],['ymd','1998-12-31'],['mdy','12/31/1998'],
+      ['long','31 DECEMBER 1998'],['dow','THU 31 DEC']]},
+    {k:'props.prefix',l:'PREFIX',t:'text',live:1},
+    {k:'props.suffix',l:'SUFFIX',t:'text',live:1},
     {t:'sect',l:'TIMER',when:w=>w.props.mode==='count'||w.props.mode==='stop'},
     {k:'props.target',l:'SECONDS',t:'num',when:w=>w.props.mode==='count'},
+    {t:'btnrow',when:w=>w.props.mode==='count',items:[
+      {l:'1 MIN',fn:w=>{ w.props.target=60; w.props.left=60; }},
+      {l:'5 MIN',fn:w=>{ w.props.target=300; w.props.left=300; }},
+      {l:'10 MIN',fn:w=>{ w.props.target=600; w.props.left=600; }},
+      {l:'15 MIN',fn:w=>{ w.props.target=900; w.props.left=900; }}]},
+    {k:'props.warn',l:'WARN UNDER (S)',t:'num',when:w=>w.props.mode==='count'},
+    {k:'props.hideZero',l:'HIDE AT ZERO',t:'check',when:w=>w.props.mode==='count'},
     {t:'btn',l:'▶ START / PAUSE',when:w=>w.props.mode==='count'||w.props.mode==='stop',
       fn:w=>{ w.props.running=w.props.running?0:1; }},
     {t:'btn',l:'↺ RESET',when:w=>w.props.mode==='count'||w.props.mode==='stop',
@@ -2869,22 +2991,35 @@ TYPES.clock={
         big.style.fontFamily=p.face==='body'?'var(--font-body)':'var(--font-disp)';
         sub.textContent=p.label||''; sub.style.display=p.label?'':'none';
         const d=new Date();
+        const MON=['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST',
+          'SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+        const DOW=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+        let out='';
+        big.style.color='';
         if(p.mode==='time'){
           let h=d.getHours(); let ap='';
           if(!p.h24){ ap=h>=12?' PM':' AM'; h=h%12||12; }
-          big.textContent=pad(h)+':'+pad(d.getMinutes())+':'+pad(d.getSeconds())+ap;
+          out=pad(h)+':'+pad(d.getMinutes())+(p.secs===0?'':':'+pad(d.getSeconds()))+ap;
         }else if(p.mode==='date'){
-          big.textContent=pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+d.getFullYear();
+          const D=pad(d.getDate()), M=pad(d.getMonth()+1), Y=d.getFullYear();
+          out = p.dateFmt==='ymd'? Y+'-'+M+'-'+D
+              : p.dateFmt==='mdy'? M+'/'+D+'/'+Y
+              : p.dateFmt==='long'? D+' '+MON[d.getMonth()]+' '+Y
+              : p.dateFmt==='dow'? DOW[d.getDay()]+' '+D+' '+MON[d.getMonth()].slice(0,3)
+              : D+'.'+M+'.'+Y;
         }else if(p.mode==='uptime'){
-          big.textContent=fmt((Date.now()-UPTIME0)/1000);
+          out=fmt((Date.now()-UPTIME0)/1000);
         }else if(p.mode==='count'){
           if(p.running) p.left=Math.max(0,(p.left==null?p.target:p.left)-dt/1000);
-          big.textContent=fmt(p.left==null?p.target:p.left);
-          big.style.color=(p.left<=10)?'var(--c-hot)':'';
+          const left=p.left==null?p.target:p.left;
+          out=(p.hideZero&&left<=0)?'':fmt(left);
+          if(left<=(p.warn==null?10:p.warn)) big.style.color='var(--c-hot)';
         }else{
           if(p.running) p.left=(p.left||0)+dt/1000;
-          big.textContent=fmt(p.left||0);
+          out=fmt(p.left||0);
         }
+        if(out) out=(p.prefix||'')+out+(p.suffix||'');
+        big.textContent=out;
       }
     };
   }
@@ -2892,16 +3027,26 @@ TYPES.clock={
 
 TYPES.counter={
   name:'HIT COUNTER', icon:'⑆', cat:'READOUTS',
-  defaults:{w:420,h:110,title:'HIT COUNTER',fs:38,props:{value:19983,digits:8,label:'VISITORS SINCE 1996',auto:1,step:1}},
+  defaults:{w:420,h:110,title:'HIT COUNTER',fs:38,props:{value:19983,digits:8,label:'VISITORS SINCE 1996',auto:1,step:1,
+    interval:2.4,color:'#00FF00',bg:'#000000',pad:1}},
   fields:[
     {t:'info',v:'The odometer that opened every GeoCities page. Point it at viewers, followers, or nothing at all.'},
     {k:'props.value',l:'VALUE',t:'num',live:1},
     {k:'props.digits',l:'DIGITS',t:'range',min:3,max:12,remount:1},
     {k:'props.label',l:'CAPTION',t:'text',live:1},
+    {k:'props.pad',l:'LEADING ZEROS',t:'check',live:1},
+    {t:'sect',l:'AUTOMATION'},
     {k:'props.auto',l:'AUTO TICK',t:'check'},
-    {k:'props.step',l:'STEP',t:'num'},
-    {t:'btn',l:'+1',fn:w=>{ w.props.value=(+w.props.value||0)+1; }},
-    {t:'btn',l:'+100',fn:w=>{ w.props.value=(+w.props.value||0)+100; }}
+    {k:'props.step',l:'STEP',t:'num',when:w=>w.props.auto},
+    {k:'props.interval',l:'EVERY (SEC)',t:'range',min:0.2,max:30,step:0.2,when:w=>w.props.auto},
+    {t:'btnrow',items:[
+      {l:'+1',fn:w=>{ w.props.value=(+w.props.value||0)+1; }},
+      {l:'+10',fn:w=>{ w.props.value=(+w.props.value||0)+10; }},
+      {l:'+100',fn:w=>{ w.props.value=(+w.props.value||0)+100; }},
+      {l:'RESET',fn:w=>{ w.props.value=0; }}]},
+    {t:'sect',l:'COLORS'},
+    {k:'props.color',l:'DIGITS',t:'color',live:1},
+    {k:'props.bg',l:'PANEL',t:'color',live:1}
   ],
   mount(w,root){
     root.innerHTML='';
@@ -2917,8 +3062,11 @@ TYPES.counter={
       frame(t,dt){
         const p=w.props;
         acc+=dt;
-        if(p.auto&&acc>2400){ acc=0; p.value=(+p.value||0)+(+p.step||1); }
-        const s=String(Math.max(0,Math.floor(+p.value||0))).padStart(cells.length,'0').slice(-cells.length);
+        if(p.auto&&acc>Math.max(200,(p.interval==null?2.4:p.interval)*1000)){
+          acc=0; p.value=(+p.value||0)+(+p.step||1); }
+        const raw=String(Math.max(0,Math.floor(+p.value||0)));
+        const s=(p.pad===0? raw.padStart(cells.length,' ') : raw.padStart(cells.length,'0'))
+          .slice(-cells.length);
         const sz=Math.min(root.clientHeight*0.42,root.clientWidth/(cells.length*1.25));
         if(s!==last){
           for(let i=0;i<cells.length;i++) if(s[i]!==last[i]){
@@ -2927,7 +3075,9 @@ TYPES.counter={
           }
           last=s;
         }
-        cells.forEach(c=>{ c.style.fontSize=Math.max(8,sz)+'px'; c.style.width=(sz*1.05)+'px'; c.style.height=(sz*1.5)+'px'; });
+        cells.forEach(c=>{ c.style.fontSize=Math.max(8,sz)+'px'; c.style.width=(sz*1.05)+'px';
+          c.style.height=(sz*1.5)+'px'; c.style.color=p.color||''; c.style.background=p.bg||''; });
+        dig.style.background=p.bg||'';
         cap.textContent=p.label||''; cap.style.display=p.label?'':'none';
         cap.style.fontSize=Math.max(9,sz*0.34)+'px';
       }
@@ -2937,16 +3087,35 @@ TYPES.counter={
 
 TYPES.goal={
   name:'GOAL BAR', icon:'▰', cat:'READOUTS',
-  defaults:{w:640,h:96,title:'GOAL',fs:26,props:{label:'FOLLOWER GOAL',cur:734,max:1000,unit:'',style:'blocks'}},
+  defaults:{w:640,h:96,title:'GOAL',fs:26,props:{mode:'count',label:'FOLLOWER GOAL',cur:734,max:1000,
+    pct:73,unit:'',style:'blocks',barColor:'',barColor2:'',trackColor:'',blockSize:14,
+    showPct:1,showFoot:1,overflow:0}},
   fields:[
+    {k:'props.mode',l:'DRIVEN BY',t:'select',opts:[['count','A COUNT AND A TARGET'],['percent','A PERCENTAGE']]},
     {k:'props.label',l:'CAPTION',t:'text',live:1},
-    {k:'props.cur',l:'CURRENT',t:'num',live:1},
-    {k:'props.max',l:'TARGET',t:'num',live:1},
-    {k:'props.unit',l:'UNIT',t:'text',live:1},
-    {k:'props.style',l:'FILL',t:'select',opts:[['blocks','CP437 BLOCKS ▓'],['solid','SOLID GRADIENT']],live:1},
-    {t:'btn',l:'+1',fn:w=>{ w.props.cur=(+w.props.cur||0)+1; }},
-    {t:'btn',l:'+10',fn:w=>{ w.props.cur=(+w.props.cur||0)+10; }},
-    {t:'btn',l:'−1',fn:w=>{ w.props.cur=Math.max(0,(+w.props.cur||0)-1); }}
+    {k:'props.pct',l:'PERCENT',t:'range',min:0,max:100,live:1,when:w=>w.props.mode==='percent'},
+    {k:'props.pct',l:'EXACT %',t:'num',live:1,when:w=>w.props.mode==='percent'},
+    {k:'props.cur',l:'CURRENT',t:'num',live:1,when:w=>w.props.mode!=='percent'},
+    {k:'props.max',l:'TARGET',t:'num',live:1,when:w=>w.props.mode!=='percent'},
+    {k:'props.unit',l:'UNIT',t:'text',live:1,when:w=>w.props.mode!=='percent'},
+    {t:'btnrow',when:w=>w.props.mode!=='percent',items:[
+      {l:'−1',fn:w=>{ w.props.cur=Math.max(0,(+w.props.cur||0)-1); }},
+      {l:'+1',fn:w=>{ w.props.cur=(+w.props.cur||0)+1; }},
+      {l:'+10',fn:w=>{ w.props.cur=(+w.props.cur||0)+10; }},
+      {l:'+100',fn:w=>{ w.props.cur=(+w.props.cur||0)+100; }}]},
+    {t:'btnrow',when:w=>w.props.mode==='percent',items:[
+      {l:'0%',fn:w=>{ w.props.pct=0; }},{l:'25%',fn:w=>{ w.props.pct=25; }},
+      {l:'50%',fn:w=>{ w.props.pct=50; }},{l:'100%',fn:w=>{ w.props.pct=100; }}]},
+    {t:'sect',l:'APPEARANCE'},
+    {k:'props.style',l:'FILL',t:'select',opts:[['blocks','CP437 BLOCKS ▓'],['solid','SOLID GRADIENT'],['stripe','BARBER POLE']],live:1},
+    {k:'props.barColor',l:'BAR',t:'color',live:1},
+    {k:'props.barColor2',l:'BAR END',t:'color',live:1,when:w=>w.props.style==='solid'},
+    {k:'props.trackColor',l:'TRACK',t:'color',live:1},
+    {k:'props.blockSize',l:'BLOCK WIDTH',t:'range',min:4,max:40,live:1,when:w=>w.props.style!=='solid'},
+    {t:'sect',l:'READOUT'},
+    {k:'props.showPct',l:'SHOW PERCENT',t:'check',live:1},
+    {k:'props.showFoot',l:'SHOW TOTALS',t:'check',live:1,when:w=>w.props.mode!=='percent'},
+    {k:'props.overflow',l:'ALLOW OVER 100%',t:'check',live:1,when:w=>w.props.mode!=='percent'}
   ],
   mount(w,root){
     root.innerHTML='';
@@ -2962,16 +3131,32 @@ TYPES.goal={
     return {
       update(nw){ w=nw; },
       frame(){
-        const p=w.props, cur=+p.cur||0, max=Math.max(1,+p.max||1), r=clamp(cur/max,0,1);
-        lab.textContent=p.label||''; pct.textContent=Math.round(r*100)+'%';
-        f1.textContent=cur.toLocaleString()+(p.unit?' '+p.unit:'');
-        f2.textContent='GOAL '+max.toLocaleString();
-        const blocky=p.style!=='solid';
+        const p=w.props, mode=p.mode||'count';
+        const wantFoot = mode!=='percent' && p.showFoot!==0;
+        const H=root.clientHeight||60;
+        box.style.fontSize=clamp(H/(wantFoot?4.7:3.5),7,(w.st&&w.st.fs)||26)+'px';
+        const cur=+p.cur||0, max=Math.max(1,+p.max||1);
+        const raw = mode==='percent' ? (+p.pct||0)/100 : cur/max;
+        const r = clamp(raw, 0, p.overflow?4:1);
+        const shown = clamp(raw,0,p.overflow?4:1);
+        lab.textContent=p.label||'';
+        pct.textContent = p.showPct===0 ? '' : Math.round(raw*100)+'%';
+        const showFoot = wantFoot;
+        foot.style.display = showFoot?'':'none';
+        if(showFoot){
+          f1.textContent=cur.toLocaleString()+(p.unit?' '+p.unit:'');
+          f2.textContent='GOAL '+max.toLocaleString();
+        }
+        const style=p.style||'blocks', blocky=style!=='solid';
         blocks.style.display=blocky?'':'none';
-        fill.classList.toggle('blocky',blocky);
-        const unit=clamp(Math.round(bar.clientHeight*0.42),8,34);
+        fill.classList.toggle('blocky',style==='blocks');
+        fill.classList.toggle('stripey',style==='stripe');
+        const unit=p.blockSize?clamp(+p.blockSize,4,40):clamp(Math.round(bar.clientHeight*0.42),8,34);
         bar.style.setProperty('--blk',unit+'px');
-        fill.style.width='calc('+(r*100)+'% - 4px)';
+        bar.style.setProperty('--bar',p.barColor||'');
+        bar.style.setProperty('--bar2',p.barColor2||'');
+        bar.style.setProperty('--trk',p.trackColor||'');
+        fill.style.width='calc('+Math.min(100,shown*100)+'% - 4px)';
       }
     };
   }
@@ -2979,15 +3164,28 @@ TYPES.goal={
 
 TYPES.note={
   name:'STICKY NOTE', icon:'▤', cat:'TEXT',
-  defaults:{w:420,h:280,title:'NOTES.TXT',fs:30,props:{text:'TODO:\n> go live\n> be normal\n> raid a friend',paper:0}},
+  defaults:{w:420,h:280,title:'NOTES.TXT',fs:30,props:{text:'TODO:\n> go live\n> be normal\n> raid a friend',paper:0,
+    paperColor:'#FFFFAA',align:'l',lh:120,wrap:1}},
   fields:[
     {k:'props.text',l:'CONTENT',t:'area',rows:8,live:1},
-    {k:'props.paper',l:'YELLOW PAPER',t:'check',live:1}
+    {k:'props.align',l:'ALIGN',t:'select',opts:[['l','LEFT'],['c','CENTER'],['r','RIGHT']],live:1},
+    {k:'props.lh',l:'LINE HEIGHT',t:'range',min:80,max:220,live:1},
+    {k:'props.wrap',l:'WRAP LONG LINES',t:'check',live:1},
+    {k:'props.paper',l:'PAPER BACKING',t:'check',live:1},
+    {k:'props.paperColor',l:'PAPER COLOR',t:'color',live:1,when:w=>w.props.paper}
   ],
   mount(w,root){
     root.innerHTML='';
     const n=el('div',{class:'note'}); root.appendChild(n);
-    const paint=()=>{ n.textContent=w.props.text||''; n.classList.toggle('paper',!!w.props.paper); };
+    const paint=()=>{
+      const p=w.props;
+      n.textContent=p.text||'';
+      n.classList.toggle('paper',!!p.paper);
+      n.style.background=p.paper?(p.paperColor||'#FFFFAA'):'';
+      n.style.textAlign=p.align==='c'?'center':p.align==='r'?'right':'left';
+      n.style.lineHeight=((p.lh==null?120:p.lh)/100);
+      n.style.whiteSpace=p.wrap===0?'pre':'pre-wrap';
+    };
     paint();
     return {update(nw){ w=nw; paint(); }};
   }
@@ -2996,12 +3194,18 @@ TYPES.note={
 TYPES.socials={
   name:'LINK LIST', icon:'✆', cat:'WEB 1.0',
   defaults:{w:520,h:200,title:'FIND ME AT',fs:30,
-    props:{items:'TWITCH|twitch.tv/you\nYOUTUBE|youtube.com/@you\nDISCORD|discord.gg/you',layout:'v',bullet:'►'}},
+    props:{items:'TWITCH|twitch.tv/you\nYOUTUBE|youtube.com/@you\nDISCORD|discord.gg/you',
+    layout:'v',bullet:'►',align:'l',labelColor:'',valueColor:'',gap:6}},
   fields:[
     {t:'info',v:'One entry per line, written as LABEL|handle.'},
     {k:'props.items',l:'ENTRIES',t:'area',rows:6,live:1},
     {k:'props.layout',l:'LAYOUT',t:'select',opts:[['v','STACKED'],['h','INLINE ROW']],live:1},
-    {k:'props.bullet',l:'BULLET',t:'text',live:1}
+    {k:'props.align',l:'ALIGN',t:'select',opts:[['l','LEFT'],['c','CENTER'],['r','RIGHT']],live:1,when:w=>w.props.layout!=='h'},
+    {k:'props.bullet',l:'BULLET',t:'text',live:1},
+    {k:'props.gap',l:'ROW GAP',t:'range',min:0,max:40,live:1},
+    {t:'sect',l:'COLORS'},
+    {k:'props.labelColor',l:'LABEL',t:'color',live:1},
+    {k:'props.valueColor',l:'HANDLE',t:'color',live:1}
   ],
   mount(w,root){
     root.innerHTML='';
@@ -3009,13 +3213,17 @@ TYPES.socials={
     const paint=()=>{
       const p=w.props;
       box.className='socials'+(p.layout==='h'?' horiz':'');
+      box.style.gap=(p.gap==null?6:p.gap)+'px';
+      box.style.alignItems=p.layout==='h'?'center'
+        :p.align==='c'?'center':p.align==='r'?'flex-end':'flex-start';
       box.innerHTML='';
       (p.items||'').split('\n').filter(l=>l.trim()).forEach(line=>{
         const [a,b]=line.split('|');
+        const bullet=(p.bullet||'').trim();
         box.appendChild(el('div',{class:'s'},[
-          el('span',{class:'ic',text:p.bullet||'►'}),
-          el('span',{text:(a||'').trim()}),
-          el('span',{class:'h',text:(b||'').trim()})
+          bullet?el('span',{class:'ic',text:bullet}):null,
+          el('span',{style:p.labelColor?('color:'+p.labelColor):'',text:(a||'').trim()}),
+          el('span',{class:'h',style:p.valueColor?('color:'+p.valueColor):'',text:(b||'').trim()})
         ]));
       });
     };
@@ -3059,7 +3267,7 @@ function parseIRC(line){
 TYPES.chat={
   name:'CHAT', icon:'▤', cat:'LIVE DATA',
   defaults:{w:520,h:560,title:'#CHAT',fs:26,props:{source:'demo',channel:'',maxLines:14,
-    style:'irc',showBadges:1,rate:2200,fade:0,highlight:''}},
+    style:'irc',rate:2200,highlight:'',stamps:0,hideCmds:0,maxLen:0,nickColors:1}},
   fields:[
     {t:'info',v:'Twitch mode joins the public IRC gateway anonymously — no login, no key, read only. Demo mode invents traffic so you can build the layout before you go live.'},
     {k:'props.source',l:'SOURCE',t:'select',remount:1,opts:[['demo','DEMO TRAFFIC'],['twitch','TWITCH CHAT (LIVE)'],['off','SILENT']]},
@@ -3069,8 +3277,15 @@ TYPES.chat={
     {k:'props.style',l:'STYLE',t:'select',live:1,opts:[['irc','mIRC — <nick> text'],['bracket','[nick] text'],
       ['bubble','SPEECH BUBBLES'],['stack','NICK ABOVE TEXT']]},
     {k:'props.maxLines',l:'MAX LINES',t:'range',min:3,max:40,live:1},
-    {k:'props.highlight',l:'HIGHLIGHT',t:'text',live:1},
-    {k:'props.rate',l:'DEMO RATE (MS)',t:'range',min:400,max:6000,step:100,when:w=>w.props.source==='demo'},
+    {k:'props.stamps',l:'TIMESTAMPS',t:'check'},
+    {k:'props.nickColors',l:'COLORED NICKS',t:'check'},
+    {t:'sect',l:'FILTERING'},
+    {k:'props.highlight',l:'HIGHLIGHT WORD',t:'text',live:1},
+    {k:'props.hideCmds',l:'HIDE ! COMMANDS',t:'check'},
+    {k:'props.maxLen',l:'TRUNCATE AT',t:'range',min:0,max:300,step:10},
+    {t:'hint',v:'Zero means never truncate.'},
+    {t:'sect',l:'DEMO'},
+    {k:'props.rate',l:'MESSAGE RATE (MS)',t:'range',min:400,max:6000,step:100,when:w=>w.props.source==='demo'},
     {t:'btn',l:'⌫ CLEAR',fn:w=>{ const i=INST.get(w.id); if(i&&i.clear) i.clear(); }}
   ],
   mount(w,root){
@@ -3083,6 +3298,9 @@ TYPES.chat={
 
     function add(nick,text,color,sys){
       const p=w.props;
+      if(!sys&&p.hideCmds&&/^\s*!/.test(text)) return;
+      if(!sys&&p.maxLen&&text.length>p.maxLen) text=text.slice(0,p.maxLen)+'…';
+      if(p.nickColors===0&&!sys) color='';
       const hl=p.highlight&&text.toLowerCase().includes(p.highlight.toLowerCase());
       const ln=el('div',{class:'ln'+(sys?' sys':'')+(hl?' hl':'')});
       const body=el('span',{class:p.style==='bubble'?'bubble':''});
@@ -3096,6 +3314,11 @@ TYPES.chat={
         body.appendChild(el('span',{class:'nick',style:'color:'+color,text:nick}));
         body.appendChild(el('span',{class:'pre',text:p.style==='bubble'?': ':close}));
         body.appendChild(document.createTextNode(text));
+      }
+      if(p.stamps&&!sys){
+        const d=new Date();
+        ln.insertBefore(el('span',{class:'pre',text:pad(d.getHours())+':'+pad(d.getMinutes())+' '}),
+          ln.firstChild);
       }
       ln.appendChild(body);
       lines.appendChild(ln);
@@ -3169,11 +3392,22 @@ const ALERT_KINDS=[['follow','NEW FOLLOWER'],['sub','NEW SUBSCRIBER'],['raid','I
 let ALERT_HOSTS=new Set();
 TYPES.alerts={
   name:'ALERT BOX', icon:'!', cat:'LIVE DATA',
-  defaults:{w:820,h:300,title:'ALERT HOST',fs:52,props:{dur:6,sound:1,anim:'pop',testName:'PIXELGOBLIN'}},
+  defaults:{w:820,h:300,title:'ALERT HOST',fs:52,props:{dur:6,sound:1,anim:'pop',
+    testName:'PIXELGOBLIN',align:'c',width:100,kindColor:'',boxBg:'',boxInk:''}},
   fields:[
     {t:'info',v:'Invisible until something fires it. Trigger from here, from a hotkey, or from anywhere with RETROCAST.alert({type:"sub",name:"…"}).'},
     {k:'props.dur',l:'HOLD (SEC)',t:'range',min:2,max:20},
     {k:'props.sound',l:'FANFARE',t:'check'},
+    {k:'props.anim',l:'ENTRANCE',t:'select',opts:[['pop','POP'],['slide','SLIDE IN'],
+      ['crt','CRT POWER-ON'],['glitch','GLITCH'],['none','NONE']]},
+    {t:'sect',l:'PLACEMENT'},
+    {k:'props.align',l:'VERTICAL',t:'select',opts:[['c','MIDDLE'],['t','TOP'],['b','BOTTOM']],live:1},
+    {k:'props.width',l:'BOX WIDTH %',t:'range',min:30,max:100,live:1},
+    {t:'sect',l:'COLORS'},
+    {k:'props.boxBg',l:'BOX FILL',t:'color',live:1},
+    {k:'props.boxInk',l:'BOX TEXT',t:'color',live:1},
+    {k:'props.kindColor',l:'HEADLINE',t:'color',live:1},
+    {t:'sect',l:'TESTING'},
     {k:'props.testName',l:'TEST NAME',t:'text'},
     {t:'sect',l:'FIRE A TEST'},
     {t:'btnrow',items:ALERT_KINDS.map(k=>({l:k[1],fn:w=>fireAlert({type:k[0],name:w.props.testName||'SOMEBODY'})}))}
@@ -3194,14 +3428,25 @@ TYPES.alerts={
         raid:'brace for incoming viewers',tip:'thank you for the support',bits:'cheers!',
         host:'thanks for the host',custom:''}[a.type]||'';
       msg.style.display=msg.textContent?'':'none';
+      box.className='alertbox an-'+(w.props.anim||'pop');
+      void box.offsetWidth;
       box.classList.add('on');
       if(w.props.sound) SFX.alert();
       clearTimeout(timer);
       timer=setTimeout(()=>{ box.classList.remove('on'); busy=false; setTimeout(next,320); },
         Math.max(1500,(w.props.dur||6)*1000));
     }
+    const style=()=>{
+      const p=w.props;
+      host.style.alignItems=p.align==='t'?'flex-start':p.align==='b'?'flex-end':'center';
+      box.style.width=(p.width==null?100:p.width)+'%';
+      box.style.background=p.boxBg||''; box.style.color=p.boxInk||'';
+      kind.style.color=p.kindColor||'';
+    };
+    style();
     const api={ fire(a){ q.push(a); if(q.length>6) q.shift(); next(); },
-      update(nw){ w=nw; }, destroy(){ clearTimeout(timer); ALERT_HOSTS.delete(api); } };
+      update(nw){ w=nw; style(); },
+      destroy(){ clearTimeout(timer); ALERT_HOSTS.delete(api); } };
     ALERT_HOSTS.add(api);
     return api;
   }
@@ -3275,7 +3520,8 @@ function drawVinyl(c,W,H,t,spin){
 TYPES.media={
   name:'NOW PLAYING', icon:'♫', cat:'READOUTS',
   defaults:{w:560,h:120,title:'NOW PLAYING',fs:30,props:{title:'NEON HORIZON',artist:'CRT SUNSET',
-    art:'cassette',mic:0,micId:'',bands:20,progress:0,autoProgress:1}},
+    art:'cassette',mic:0,micId:'',bands:20,progress:35,autoProgress:1,
+    showViz:1,showBar:1,barColor:'',vizColor:''}},
   fields:[
     {k:'props.title',l:'TRACK',t:'text',live:1},
     {k:'props.artist',l:'ARTIST',t:'text',live:1},
@@ -3285,8 +3531,15 @@ TYPES.media={
     {k:'props.mic',l:'USE AUDIO IN',t:'check',remount:1},
     {k:'props.micId',l:'INPUT',t:'select',remount:1,when:w=>w.props.mic,
       opts:()=>[['','— DEFAULT INPUT —']].concat(HUB.mics.map((d,i)=>[d.deviceId,(d.label||('INPUT '+(i+1))).toUpperCase()]))},
-    {k:'props.bands',l:'BARS',t:'range',min:6,max:48,remount:1},
-    {k:'props.autoProgress',l:'ANIMATE BAR',t:'check'}
+    {k:'props.showViz',l:'SHOW METER',t:'check',live:1},
+    {k:'props.bands',l:'BARS',t:'range',min:6,max:48,remount:1,when:w=>w.props.showViz},
+    {k:'props.vizColor',l:'METER COLOR',t:'color',live:1,when:w=>w.props.showViz},
+    {t:'sect',l:'PROGRESS BAR'},
+    {k:'props.showBar',l:'SHOW BAR',t:'check',live:1},
+    {k:'props.autoProgress',l:'ANIMATE',t:'check',when:w=>w.props.showBar},
+    {k:'props.progress',l:'POSITION %',t:'range',min:0,max:100,live:1,
+      when:w=>w.props.showBar&&!w.props.autoProgress},
+    {k:'props.barColor',l:'BAR COLOR',t:'color',live:1,when:w=>w.props.showBar}
   ],
   mount(w,root){
     root.innerHTML='';
@@ -3323,12 +3576,17 @@ TYPES.media={
         let data;
         if(rec){ rec.an.getByteFrequencyData(rec.data); data=rec.data; }
         else data=fakeBands(n,t);
-        for(let i=0;i<n;i++){
+        viz.style.display=p.showViz===0?'none':'';
+        if(p.showViz!==0) for(let i=0;i<n;i++){
           const v=data[Math.floor(i*(data.length||n)/n)]||0;
           bars[i].style.height=Math.max(2,(v/255)*100)+'%';
-          bars[i].style.background=v>200?'var(--c-hot)':v>140?'var(--c-accent)':'var(--c-ok)';
+          bars[i].style.background=p.vizColor||
+            (v>200?'var(--c-hot)':v>140?'var(--c-accent)':'var(--c-ok)');
         }
+        pb.style.display=p.showBar===0?'none':'';
+        pbi.style.background=p.barColor||'';
         if(p.autoProgress){ prog=(prog+dt*.00004)%1; pbi.style.width=(prog*100)+'%'; }
+        else pbi.style.width=clamp(+p.progress||0,0,100)+'%';
       }
     };
   }
@@ -3337,7 +3595,7 @@ TYPES.media={
 TYPES.viz={
   name:'SPECTRUM', icon:'▁▄█', cat:'READOUTS',
   defaults:{w:520,h:220,title:'ANALYZER',props:{mic:1,micId:'',bands:32,style:'bars',
-    c1:'#55FF55',c2:'#FFFF55',c3:'#FF5555',peak:1,mirror:0}},
+    c1:'#55FF55',c2:'#FFFF55',c3:'#FF5555',peak:1,mirror:0,smooth:74,gain:100,fall:60}},
   fields:[
     {t:'info',v:'A real FFT of a live audio input. Without one it falls back to a generated waveform so the layout still reads.'},
     {k:'props.mic',l:'USE AUDIO IN',t:'check',remount:1},
@@ -3345,7 +3603,10 @@ TYPES.viz={
       opts:()=>[['','— DEFAULT INPUT —']].concat(HUB.mics.map((d,i)=>[d.deviceId,(d.label||('INPUT '+(i+1))).toUpperCase()]))},
     {k:'props.style',l:'STYLE',t:'select',opts:[['bars','BAR GRAPH'],['blocks','LED BLOCKS'],['wave','OSCILLOSCOPE'],['mirror','MIRRORED']]},
     {k:'props.bands',l:'BANDS',t:'range',min:8,max:96},
+    {k:'props.gain',l:'GAIN',t:'range',min:20,max:400},
+    {k:'props.smooth',l:'SMOOTHING',t:'range',min:0,max:95},
     {k:'props.peak',l:'PEAK HOLD',t:'check'},
+    {k:'props.fall',l:'PEAK FALL',t:'range',min:5,max:200,when:w=>w.props.peak},
     {t:'sect',l:'PALETTE'},
     {k:'props.c1',l:'LOW',t:'color'},{k:'props.c2',l:'MID',t:'color'},{k:'props.c3',l:'PEAK',t:'color'}
   ],
@@ -3374,10 +3635,12 @@ TYPES.viz={
           }
           ctx.stroke(); return;
         }
+        if(rec&&p.smooth!=null) rec.an.smoothingTimeConstant=clamp(p.smooth,0,95)/100;
+        const gain=(p.gain==null?100:p.gain)/100;
         const bw=W/n;
         for(let i=0;i<n;i++){
-          const v=(data[Math.floor(i*(data.length||n)/n)]||0)/255;
-          peaks[i]=Math.max((peaks[i]||0)-dt*.0006,v);
+          const v=clamp(((data[Math.floor(i*(data.length||n)/n)]||0)/255)*gain,0,1);
+          peaks[i]=Math.max((peaks[i]||0)-dt*.00001*(p.fall==null?60:p.fall),v);
           const h=v*H*(p.style==='mirror'?.48:.96);
           const grd=ctx.createLinearGradient(0,H,0,H-h);
           grd.addColorStop(0,p.c1||'#55FF55'); grd.addColorStop(.65,p.c2||'#FFFF55'); grd.addColorStop(1,p.c3||'#FF5555');
@@ -3400,12 +3663,22 @@ TYPES.viz={
 
 TYPES.sysmon={
   name:'SYSTEM MONITOR', icon:'▤', cat:'READOUTS',
-  defaults:{w:520,h:150,title:'SYSTEM',fs:26,props:{items:'fps,mem,net,cpu',spark:1}},
+  defaults:{w:520,h:150,title:'SYSTEM',fs:26,props:{items:'fps,mem,net,cpu',spark:1,
+    warn:62,crit:85,barColor:'',showValues:1}},
   fields:[
     {t:'info',v:'FPS, FRAME and OBJECTS are measured. MEM reads the JS heap where the browser exposes it. CPU, NET and DISK are decorative gauges — they look the part, they are not telemetry.'},
-    {k:'props.items',l:'ROWS',t:'text',live:1},
+    {k:'props.items',l:'ROWS',t:'text',live:1,remount:1},
     {t:'hint',v:'Comma separated from: fps, frame, mem, obj, cpu, net, disk'},
-    {k:'props.spark',l:'SPARKLINE',t:'check',remount:1}
+    {t:'btnrow',items:[
+      {l:'PERF',fn:w=>{ w.props.items='fps,frame,mem,obj'; remountWin(w); }},
+      {l:'FAKE RIG',fn:w=>{ w.props.items='cpu,mem,net,disk'; remountWin(w); }},
+      {l:'MINIMAL',fn:w=>{ w.props.items='fps,cpu'; remountWin(w); }}]},
+    {k:'props.showValues',l:'SHOW NUMBERS',t:'check',live:1},
+    {k:'props.spark',l:'FPS SPARKLINE',t:'check',remount:1},
+    {t:'sect',l:'THRESHOLDS'},
+    {k:'props.warn',l:'WARN OVER %',t:'range',min:10,max:99},
+    {k:'props.crit',l:'CRITICAL OVER %',t:'range',min:20,max:100},
+    {k:'props.barColor',l:'NORMAL BAR',t:'color'}
   ],
   mount(w,root){
     root.innerHTML='';
@@ -3447,11 +3720,14 @@ TYPES.sysmon={
           net:[sim.net,Math.round(sim.net*14)+' K/s'],
           disk:[sim.disk,Math.round(sim.disk)+' %']
         };
+        const warn=w.props.warn==null?62:w.props.warn, crit=w.props.crit==null?85:w.props.crit;
         for(const k in rows){
           const d=vals[k]||[0,'—'];
           rows[k].i.style.width=clamp(d[0],0,100)+'%';
-          rows[k].i.className=d[0]>85?'crit':d[0]>62?'warn':'';
-          rows[k].v.textContent=d[1];
+          rows[k].i.className=d[0]>crit?'crit':d[0]>warn?'warn':'';
+          rows[k].i.style.background=(d[0]>warn)?'':(w.props.barColor||'');
+          rows[k].v.textContent=w.props.showValues===0?'':d[1];
+          rows[k].v.style.display=w.props.showValues===0?'none':'';
         }
         if(sctx){
           hist.push(LOOP.fps); if(hist.length>90) hist.shift();
@@ -3473,13 +3749,15 @@ TYPES.bootlog={
   name:'CONSOLE LOG', icon:'>', cat:'TEXT',
   defaults:{w:520,h:260,title:'CONSOLE',fs:26,props:{
     lines:'INITIALISING OVERLAY...|OK\nDETECTING CAPTURE DEVICES...|OK\nLOADING SCENE...|OK\nSTREAM STATUS...|LIVE',
-    speed:55,loop:1,prompt:'C:\\RETROCAST>'}},
+    speed:55,loop:1,cursor:1,prompt:'C:\\RETROCAST>'}},
   fields:[
     {t:'info',v:'Types out line by line. Write each as TEXT|STATUS — the status is coloured automatically.'},
     {k:'props.lines',l:'SCRIPT',t:'area',rows:7,remount:1},
     {k:'props.speed',l:'TYPE SPEED',t:'range',min:8,max:200},
     {k:'props.prompt',l:'PROMPT',t:'text',remount:1},
-    {k:'props.loop',l:'LOOP',t:'check'}
+    {k:'props.loop',l:'LOOP',t:'check'},
+    {k:'props.cursor',l:'BLOCK CURSOR',t:'check'},
+    {t:'btn',l:'↺ RUN AGAIN',fn:w=>remountWin(w)}
   ],
   mount(w,root){
     root.innerHTML='';
@@ -3498,7 +3776,8 @@ TYPES.bootlog={
           const lines=src();
           if(li>=lines.length){
             if(w.props.loop){ setTimeout(reset,1400); done=true; }
-            else{ done=true; if(w.props.prompt) box.appendChild(el('div',{class:'l cursor',text:w.props.prompt+' '})); }
+            else{ done=true; if(w.props.prompt||w.props.cursor)
+              box.appendChild(el('div',{class:'l'+(w.props.cursor!==0?' cursor':''),text:(w.props.prompt||'')+' '})); }
             return;
           }
           const [txt,stat]=lines[li].split('|');
@@ -3523,7 +3802,7 @@ TYPES.bootlog={
 TYPES.captions={
   name:'LIVE CAPTIONS', icon:'❝', cat:'LIVE DATA',
   defaults:{w:1100,h:150,title:'CAPTIONS',fs:44,props:{on:0,lang:'en-US',words:14,box:1,
-    interim:1,upper:0,profanity:1}},
+    interim:1,upper:0,boxColor:'',ink:'',align:'c'}},
   fields:[
     {t:'info',v:'Speech recognition straight from the microphone, rendered as broadcast subtitles. Chrome and Edge only; audio is processed by the browser\'s speech service.'},
     {k:'props.on',l:'LISTENING',t:'check',remount:1},
@@ -3533,7 +3812,11 @@ TYPES.captions={
     {k:'props.words',l:'MAX WORDS',t:'range',min:4,max:40,live:1},
     {k:'props.interim',l:'SHOW PARTIAL',t:'check'},
     {k:'props.box',l:'BACKPLATE',t:'check',live:1},
-    {k:'props.upper',l:'UPPERCASE',t:'check',live:1}
+    {k:'props.boxColor',l:'PLATE COLOR',t:'color',live:1,when:w=>w.props.box},
+    {k:'props.ink',l:'TEXT COLOR',t:'color',live:1},
+    {k:'props.align',l:'ALIGN',t:'select',opts:[['c','CENTER'],['l','LEFT'],['r','RIGHT']],live:1},
+    {k:'props.upper',l:'UPPERCASE',t:'check',live:1},
+    {t:'btn',l:'⌫ CLEAR TRANSCRIPT',fn:w=>{ const i=INST.get(w.id); if(i&&i.clear) i.clear(); }}
   ],
   mount(w,root){
     root.innerHTML='';
@@ -3548,6 +3831,11 @@ TYPES.captions={
       fin.textContent=s?(p.upper?s.toUpperCase():s):placeholder;
       fin.className=p.box?'box':'';
       part.className=(p.box?'box ':'')+'interim';
+      const bg=p.box?(p.boxColor||'rgba(0,0,0,.72)'):'transparent';
+      fin.style.background=bg; part.style.background=bg;
+      txt.style.color=p.ink||'';
+      box.style.justifyContent=p.align==='l'?'flex-start':p.align==='r'?'flex-end':'center';
+      txt.style.textAlign=p.align==='l'?'left':p.align==='r'?'right':'center';
     }
     if(!SR){
       placeholder='SPEECH RECOGNITION UNAVAILABLE IN THIS BROWSER';
@@ -3575,6 +3863,7 @@ TYPES.captions={
     paint();
     return {
       update(nw){ w=nw; paint(); },
+      clear(){ words=[]; part.textContent=''; paint(); },
       destroy(){ stopped=true; if(rec) try{ rec.stop(); }catch(e){} }
     };
   }
@@ -3583,13 +3872,19 @@ TYPES.captions={
 TYPES.poll={
   name:'POLL / TALLY', icon:'▥', cat:'LIVE DATA',
   defaults:{w:520,h:240,title:'CHAT POLL',fs:28,
-    props:{q:'WHICH GAME NEXT?',opts:'DOOM|41\nQUAKE|33\nCOMMANDER KEEN|18\nSKIFREE|8',pct:1,winner:1}},
+    props:{q:'WHICH GAME NEXT?',opts:'DOOM|41\nQUAKE|33\nCOMMANDER KEEN|18\nSKIFREE|8',
+    pct:1,winner:1,sort:0,total:0,barColor:'',winColor:''}},
   fields:[
     {t:'info',v:'One option per line as LABEL|votes. Bars are proportional; the leader is highlighted.'},
     {k:'props.q',l:'QUESTION',t:'text',live:1},
     {k:'props.opts',l:'OPTIONS',t:'area',rows:6,live:1},
     {k:'props.pct',l:'SHOW %',t:'check',live:1},
-    {k:'props.winner',l:'MARK LEADER',t:'check',live:1}
+    {k:'props.winner',l:'MARK LEADER',t:'check',live:1},
+    {k:'props.sort',l:'SORT BY VOTES',t:'check',live:1},
+    {k:'props.total',l:'SHOW TOTAL',t:'check',live:1},
+    {t:'sect',l:'COLORS'},
+    {k:'props.barColor',l:'BAR',t:'color',live:1},
+    {k:'props.winColor',l:'LEADER',t:'color',live:1}
   ],
   mount(w,root){
     root.innerHTML='';
@@ -3598,23 +3893,36 @@ TYPES.poll={
       const p=w.props;
       box.innerHTML='';
       box.appendChild(el('div',{class:'q',text:p.q||''}));
-      const rows=(p.opts||'').split('\n').filter(l=>l.trim()).map(l=>{
+      const nOpts=(p.opts||'').split('\n').filter(l=>l.trim()).length||1;
+      const H=root.clientHeight||100;
+      box.style.fontSize=clamp(H/((p.q?1.5:0)+nOpts*1.5+(p.total?1.4:0)+1),7,(w.st&&w.st.fs)||28)+'px';
+      let rows=(p.opts||'').split('\n').filter(l=>l.trim()).map(l=>{
         const [a,b]=l.split('|'); return {l:(a||'').trim(),v:Math.max(0,parseFloat(b)||0)};
       });
+      if(p.sort) rows=rows.slice().sort((a,b)=>b.v-a.v);
       const total=rows.reduce((s,r)=>s+r.v,0)||1;
       const max=Math.max.apply(null,rows.map(r=>r.v).concat([0]));
       rows.forEach(r=>{
         const o=el('div',{class:'o'});
-        const tr=el('div',{class:'track'}), i=el('i',{class:(p.winner&&r.v===max&&max>0)?'win':''});
+        const isWin=p.winner&&r.v===max&&max>0;
+        const tr=el('div',{class:'track'}), i=el('i',{class:isWin?'win':''});
         i.style.width=(r.v/total*100)+'%';
+        const col=isWin?(p.winColor||''):(p.barColor||'');
+        if(col) i.style.background=col;
         tr.appendChild(i);
         o.append(el('div',{class:'lbl',text:r.l}),tr,
           el('div',{class:'pc',text:p.pct?Math.round(r.v/total*100)+'%':String(r.v)}));
         box.appendChild(o);
       });
+      if(p.total) box.appendChild(el('div',{class:'q',style:'margin-top:.2em;opacity:.8',
+        text:total.toLocaleString()+' VOTES'}));
     };
     paint();
-    return {update(nw){ w=nw; paint(); }};
+    let lh=0;
+    return {
+      update(nw){ w=nw; paint(); },
+      frame(){ const h=root.clientHeight; if(h!==lh){ lh=h; paint(); } }
+    };
   }
 };
 
@@ -3634,12 +3942,17 @@ const CLIPPI_TIPS=[
 ];
 TYPES.clippi={
   name:'ASSISTANT', icon:'☺', cat:'WEB 1.0',
-  defaults:{w:520,h:130,title:'CLIPPI.EXE',fs:26,props:{every:9,face:'📎',custom:''}},
+  defaults:{w:520,h:130,title:'CLIPPI.EXE',fs:26,props:{every:9,face:'📎',custom:'',
+    side:'l',bubbleBg:'#FFFFCC',bubbleInk:'#000000'}},
   fields:[
     {t:'info',v:'An unhelpful helper. Leave the custom line empty to cycle the built-in tips.'},
     {k:'props.custom',l:'CUSTOM LINE',t:'area',rows:3,live:1},
-    {k:'props.every',l:'ROTATE (SEC)',t:'range',min:3,max:60},
-    {k:'props.face',l:'MASCOT',t:'text',live:1}
+    {k:'props.every',l:'ROTATE (SEC)',t:'range',min:3,max:60,when:w=>!(w.props.custom||'').trim()},
+    {k:'props.face',l:'MASCOT',t:'text',live:1},
+    {k:'props.side',l:'MASCOT SIDE',t:'select',opts:[['l','LEFT'],['r','RIGHT']],live:1},
+    {k:'props.bubbleBg',l:'BUBBLE FILL',t:'color',live:1},
+    {k:'props.bubbleInk',l:'BUBBLE TEXT',t:'color',live:1},
+    {t:'btn',l:'▶ NEXT TIP',fn:w=>{ const i=INST.get(w.id); if(i&&i.next) i.next(); }}
   ],
   mount(w,root){
     root.innerHTML='';
@@ -3647,11 +3960,18 @@ TYPES.clippi={
     const guy=el('div',{class:'guy'}), bub=el('div',{class:'bub'});
     box.append(guy,bub); root.appendChild(box);
     let i=(Math.random()*CLIPPI_TIPS.length)|0, acc=0;
-    const paint=()=>{ guy.textContent=w.props.face||'📎';
-      bub.textContent=(w.props.custom&&w.props.custom.trim())?w.props.custom:CLIPPI_TIPS[i]; };
+    const paint=()=>{
+      const p=w.props;
+      guy.textContent=p.face||'📎';
+      bub.textContent=(p.custom&&p.custom.trim())?p.custom:CLIPPI_TIPS[i];
+      bub.style.background=p.bubbleBg||''; bub.style.color=p.bubbleInk||'';
+      box.style.flexDirection=p.side==='r'?'row-reverse':'row';
+      bub.classList.toggle('flip',p.side==='r');
+    };
     paint();
     return {
       update(nw){ w=nw; paint(); },
+      next(){ i=(i+1)%CLIPPI_TIPS.length; acc=0; paint(); },
       frame(t,dt){ acc+=dt;
         if(acc>(w.props.every||9)*1000){ acc=0; i=(i+1)%CLIPPI_TIPS.length; paint(); } }
     };
@@ -3757,7 +4077,8 @@ function afterWinChange(w){
     if(f&&f.remount) remountWin(w);
     else if(f&&f.live){ const i=INST.get(w.id); if(i&&i.update) i.update(w); syncWin(w); }
     else refreshWin(w);
-    if(f&&f.when) renderInspector();
+    /* selects and checkboxes gate other fields' `when`, so rebuild the panel */
+    if(f&&(f.t==='select'||f.t==='check'||f.when)) renderInspector();
     updateStatus(); autosave();
   };
 }
@@ -3825,7 +4146,8 @@ function renderInspector(){
   const w=SEL?findWin(SEL):null;
   if(!w){
     const msg=el('div',{class:'empty',html:'<span class="big">▣</span>NOTHING SELECTED<br>'+
-      'Click a window on the stage,<br>or add one from the toolbox.'});
+      'Click a window on the stage,<br>or add one from the toolbox.<br><br>'+
+      '<span style="color:var(--c-accent)">WORLD</span> works with nothing selected.'});
     pL.appendChild(msg.cloneNode(true)); pS.appendChild(msg.cloneNode(true)); pT.appendChild(msg.cloneNode(true));
   }else{
     const cb=afterWinChange(w);
@@ -3853,7 +4175,19 @@ function renderInspector(){
     STYLE_FIELDS.forEach(f=>{ const n=mkField(f,w,cb); if(n) pT.appendChild(n); });
   }
   renderWorld(pW);
+  showInspectorPage(IPAGE);
 }
+
+/* ── inspector tabs ──────────────────────────────────────────────────── */
+let IPAGE='layout';
+function showInspectorPage(page){
+  IPAGE=page;
+  $$('.itab').forEach(t=>t.classList.toggle('on',t.dataset.page===page));
+  $$('.ipage').forEach(pg=>{ pg.hidden = pg.id.toLowerCase()!=='pg'+page; });
+}
+$$('.itab').forEach(t=>{
+  t.addEventListener('click',()=>{ showInspectorPage(t.dataset.page); SFX.click(); });
+});
 
 function syncGeomFields(w){
   if(SEL!==w.id) return;
@@ -3874,7 +4208,8 @@ const CANVAS_PRESETS=[[1920,1080,'1920×1080 — 1080p'],[2560,1440,'2560×1440 
 
 function renderWorld(box){
   box.innerHTML='';
-  const world=(f,heavy)=>{ applyWorld(); autosave(); if(f&&f.re) renderInspector(); };
+  const world=(f,heavy)=>{ applyWorld(); autosave();
+    if(f&&(f.t==='select'||f.t==='check'||f.re)) renderInspector(); };
   const add=(f,target,cb)=>{ const n=mkField(f,target,cb||world); if(n) box.appendChild(n); };
 
   add({t:'sect',l:'OUTPUT CANVAS'});

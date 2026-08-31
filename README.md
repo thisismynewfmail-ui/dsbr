@@ -47,6 +47,22 @@ window. Simplest route if you want camera permissions to behave like a normal ta
 
 ---
 
+## The property panel
+
+Four tabs, always in the same place:
+
+| Tab | |
+|---|---|
+| **Layout** | Title, exact X/Y/W/H, size presets (fill stage, 16:9, 4:3, 1:1), corner snaps, stacking, visible/locked, scene-only vs global, duplicate/move/delete |
+| **Source** | Everything specific to that window type — a different panel for each of the 24 |
+| **Style** | Frame, the five colour slots, typeface and size, opacity, rotation, brightness/contrast/saturation/hue/blur, entrance and idle animation |
+| **World** | Canvas size, palette, default frame, scene transition, scene backdrop, the whole CRT tube, grid and snapping |
+
+Options that only apply in a particular mode appear when you switch to it — pick
+`A PERCENTAGE` on a goal bar and the count/target fields are replaced by a percent
+slider; turn on a chroma key and its three controls appear underneath. Every colour
+field carries the sixteen VGA colours as one-click swatches.
+
 ## Window types
 
 **Sources** — Camera · Screen Capture · Image/GIF · Video Loop · Web Embed
@@ -72,8 +88,14 @@ A few worth calling out:
 - **FX Panel** — fifteen demoscene routines (plasma, DOOM fire, starfield, tunnel,
   copper bars, Bayer dither, digital rain, 3D pipes, bouncing logo…), each rendered into
   a chunky low-res buffer and blitted up with smoothing off, like a mode 13h framebuffer.
+- **Goal Bar** — driven either by a count and a target, or by a percentage you set
+  directly. Three fill styles (CP437 blocks, solid gradient, barber pole), its own bar
+  and track colours, and an allow-over-100% mode.
 - **System Monitor** — FPS, frame time, heap and object count are measured. CPU, NET and
-  DISK are decorative gauges; they look the part, they are not telemetry.
+  DISK are decorative gauges; they look the part, they are not telemetry. Warn and
+  critical thresholds are yours to set.
+- **Chat** — timestamps, a highlight word, hiding `!commands`, truncating long messages,
+  and four line styles from mIRC angle brackets to speech bubbles.
 
 ## Scenes
 
